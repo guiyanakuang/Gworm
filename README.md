@@ -50,6 +50,6 @@ User-Agent=Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like G
 使用上述配置获取亚马逊搜索[巧克力][1]的json数据。
 
 
-  [1]: http://120.26.41.209/servlet/GetJson?query=%E5%B7%A7%E5%85%8B%E5%8A%9B
+  [1]: http://guiyanakuang.com/GetJson/servlet/Gworm?query=%E5%B7%A7%E5%85%8B%E5%8A%9B
   [2]: http://jsoup.org/
   [3]: http://dom4j.sourceforge.net/
