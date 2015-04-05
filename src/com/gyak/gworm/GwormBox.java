@@ -1,6 +1,7 @@
 package com.gyak.gworm;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import com.gyak.proterty.NotInitRequestProperties;
@@ -15,17 +16,34 @@ public class GwormBox {
 		return GwormBoxHondle.instance;
 	}
 	
-	private HashMap<String, String> gwormConfigMap = new HashMap<String, String>();
-	
 	private HashMap<String, Gworm> gwormMap = new HashMap<String, Gworm>();
 	
-	public void addWormConfigPath(String key, String path) {
-		this.gwormConfigMap.put(key, path);
+	/**
+	 * 添加Gworm配置
+	 * @param path 配置文件路径
+	 * @param name 配置名
+	 */
+	public void addGworm(String path, String name) {
+		try {
+			Gworm gworm = new GwormFactory(path).getInstance();
+			gwormMap.put(name, gworm);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public String getJson(String wormConfigKey, String url, String urlId) throws NotFindGwormConfigException, NotInitRequestProperties {
-		String key = gwormConfigMap.get(wormConfigKey);
-		Gworm gworm = addGworm(key);
+	/**
+	 * 添加Gworm配置
+	 * @param in 配置文件输入流
+	 * @param name 配置名
+	 */
+	public void addGworm(InputStream in, String name) {
+		Gworm gworm = new GwormFactory(in).getInstance();
+		gwormMap.put(name, gworm);
+	}
+	
+	public String getJson(String name, String url, String urlId) throws NotFindGwormConfigException, NotInitRequestProperties {
+		Gworm gworm = gwormMap.get(name);
 		if(gworm == null) {
 			throw new NotFindGwormConfigException();
 		}
@@ -34,9 +52,8 @@ public class GwormBox {
 		}
 	}
 	
-	public String getJson(String wormConfigKey, String url, String urlId, String jsonId) throws NotFindGwormConfigException, NotInitRequestProperties {
-		String key = gwormConfigMap.get(wormConfigKey);
-		Gworm gworm = addGworm(key);
+	public String getJson(String name, String url, String urlId, String jsonId) throws NotFindGwormConfigException, NotInitRequestProperties {
+		Gworm gworm = gwormMap.get(name);
 		if(gworm == null) {
 			throw new NotFindGwormConfigException();
 		}
@@ -45,16 +62,5 @@ public class GwormBox {
 		}
 	}
 	
-	private Gworm addGworm(String key) {
-		if(key != null && !gwormMap.containsKey(key)) {
-			try {
-				Gworm gworm = new GwormFactory(key).getInstance();
-				gwormMap.put(key, gworm);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		return gwormMap.get(key);
-	}
 	
 }
