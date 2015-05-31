@@ -8,6 +8,8 @@ import com.gyak.proterty.NotInitRequestProperties;
 
 public class GwormBox {
 
+
+
 	private static class GwormBoxHondle {
 		private final static GwormBox instance = new GwormBox();
 	}
@@ -17,11 +19,12 @@ public class GwormBox {
 	}
 	
 	private HashMap<String, Gworm> gwormMap = new HashMap<String, Gworm>();
-	
+
+
 	/**
-	 * Ìí¼ÓGwormÅäÖÃ
-	 * @param path ÅäÖÃÎÄ¼şÂ·¾¶
-	 * @param name ÅäÖÃÃû
+	 * æ·»åŠ Gwormé…ç½®
+	 * @param path é…ç½®æ–‡ä»¶è·¯å¾„
+	 * @param name é…ç½®å
 	 */
 	public void addGworm(String path, String name) {
 		try {
@@ -31,16 +34,28 @@ public class GwormBox {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Ìí¼ÓGwormÅäÖÃ
-	 * @param in ÅäÖÃÎÄ¼şÊäÈëÁ÷
-	 * @param name ÅäÖÃÃû
+	 * æ·»åŠ Gwormé…ç½®
+	 * @param in é…ç½®æ–‡ä»¶è¾“å…¥æµ
+	 * @param name é…ç½®å
 	 */
 	public void addGworm(InputStream in, String name) {
 		Gworm gworm = new GwormFactory(in).getInstance();
 		gwormMap.put(name, gworm);
 	}
+
+	public String getJson(GwormCoordinate coordinate, String url) throws NotInitRequestProperties, NotFindGwormConfigException {
+		if (coordinate.getJsonId() == null) {
+			return getJson(coordinate.getName(), url,
+					coordinate.getUrlId());
+		}
+		else
+			return getJson(coordinate.getName(), url,
+					coordinate.getUrlId(),
+					coordinate.getJsonId());
+	}
+
 	
 	public String getJson(String name, String url, String urlId) throws NotFindGwormConfigException, NotInitRequestProperties {
 		Gworm gworm = gwormMap.get(name);

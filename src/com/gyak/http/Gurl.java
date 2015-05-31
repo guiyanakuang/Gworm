@@ -1,5 +1,8 @@
 package com.gyak.http;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -19,6 +22,12 @@ import com.gyak.proterty.RequestProperties;
  */
 
 public class Gurl {
+
+	private final String GBK = "gbk";
+	private final String ISO_8859_1 = "iso-8859-1";
+	private final String GB2312 = "gb2312";
+	private final String UTF_8 = "utf-8";
+
 	private HttpURLConnection  http;
 	private CookieManager cookieManager;
 	
@@ -42,19 +51,19 @@ public class Gurl {
 	public String getContentType(){
 		String type = this.http.getContentType();
 		if(type == null)
-			return "UTF-8";
+			return UTF_8;
 		else{
 			type = type.toLowerCase();
 		}
 		
-		if(type.contains("gbk"))
-			return "GBK";
-		else if(type.contains("iso-8859-1"))
-			return "ISO-8859-1";
-		else if(type.contains("gb2312"))
-			return "GB2312";
+		if(type.contains(GBK))
+			return GBK;
+		else if(type.contains(ISO_8859_1))
+			return ISO_8859_1;
+		else if(type.contains(GB2312))
+			return GB2312;
 		else
-			return "UTF-8";
+			return UTF_8;
 	}
 	
 	public void openUrl() throws IOException, NotInitRequestProperties{
@@ -74,8 +83,8 @@ public class Gurl {
 		RequestProperties rp = RequestProperties.getInstance();
 		Iterator<Entry<Object, Object>> itr = rp.getProperties().entrySet().iterator();
         while (itr.hasNext()){
-            Entry<Object, Object> e = (Entry<Object, Object>)itr.next();
-            this.http.setRequestProperty(e.getKey().toString(), e.getValue().toString());
+            Entry<Object, Object> e = itr.next();
+            http.setRequestProperty(e.getKey().toString(), e.getValue().toString());
         }
 	}
 	
@@ -83,7 +92,7 @@ public class Gurl {
 	 * 设置cookie
 	 */
 	private void setCookie(){
-		this.http.setRequestProperty("Cookie", cookieManager.getCookies(http.getURL().getHost()));
+		this.http.setRequestProperty(CookieManager.REQUEST_KEY, cookieManager.getCookies());
 	}
 	
 	/**
@@ -92,38 +101,10 @@ public class Gurl {
 	 * @throws IOException
 	 * @throws NotInitRequestProperties 
 	 */
-	public InputStream getInputStream() throws IOException, NotInitRequestProperties {  
-        InputStream is = http.getInputStream();
-        //取到输入流中后处理Cookie信息  
-        resolveCookies();  
-        int responseCode = http.getResponseCode();  
-        if(responseCode != 200 && responseCode != 404 ){  
-            //清除cookie并重新发请求  
-            CookieManager.getInstance().removeCookies(http.getURL().getHost());  
-            try{  
-                http.disconnect();  
-                is.close();
-            }catch (Exception e) {  
-            }  
-            http = (HttpURLConnection) http.getURL().openConnection();  
-            this.setRequestProperty();
-            this.setCookie();  
-            is = http.getInputStream();  
-        }  
-        return is;  
+	public InputStream getInputStream() throws IOException, NotInitRequestProperties {
+        return http.getInputStream();
     }  
-	
-	/**
-	 * 清空cookies
-	 */
-	private void resolveCookies(){  
-        List<String> setCookies = http.getHeaderFields().get("Set-Cookie");  
-        if(setCookies != null && !setCookies.isEmpty()){  
-            for (String setCookie : setCookies) {  
-                cookieManager.setCookies(http.getURL().getHost(), setCookie);  
-            }     
-        }  
-    }  
+
 	
 	public URL getUrl(){
 		return http.getURL();
@@ -134,5 +115,6 @@ public class Gurl {
 			return false;
 		return this.http.getContentEncoding().equals("gzip");
 	}
+
 	
 }
