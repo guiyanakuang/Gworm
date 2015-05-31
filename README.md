@@ -1,6 +1,9 @@
 # Gworm
 Gworm是一个java版的用以提取指定网址中特定部分数据，以json格式返回的库。使用场合举例：获取电商平台的搜索结果、博客内容、对没有提供api接口的网站通过提取html制作DIY的接口。
 
+# version 0.8
+添加并发的支持、url生成器、新版的CookieManager
+
 # 使用说明
 本库需要引用[Jsoup][2]、[Dom4j][3]。
 ```java
