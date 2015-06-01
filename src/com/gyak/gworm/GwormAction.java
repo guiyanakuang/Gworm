@@ -31,6 +31,7 @@ public abstract class GwormAction {
             });
             urlGeneration.next();
         }
+        exec.shutdown();
     }
 
     public abstract void action(String json);
