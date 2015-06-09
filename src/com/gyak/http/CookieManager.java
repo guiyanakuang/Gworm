@@ -6,7 +6,8 @@ import java.util.Map;
 
 /**
  * cookie 管理器
- * * Created by Guiyanakuang on 2015/5/31.
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2015-05-31.
  */
 public class CookieManager {
 

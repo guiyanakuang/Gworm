@@ -11,13 +11,10 @@ import java.util.Map.Entry;
 import com.gyak.proterty.NotInitRequestProperties;
 import com.gyak.proterty.RequestProperties;
 /**
- *
- * <p><B>功能:</B> 封装的HttpURLConnection
- * @author 作者 E-mail: guiyanakuang@gmail.com
- * @version 创建时间：2014年10月21日 下午7:07:11
- *
+ * http连接类，封装HttpURLConnection、CookieManager
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2014-10-11.
  */
-
 public class Gurl {
 
 	private final String GBK = "gbk";

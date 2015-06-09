@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.dom4j.Document;
@@ -11,29 +13,61 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+/**
+ * Gworm静态工厂类
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2014-03-09.
+ */
 public class GwormFactory {
 	
-	private final String GWORM = "gworm";
-	private final String URL = "url";
-	private final String ARRAY = "array";
-	private final String ID = "id";
-	private final String RULE = "rule";
-	private final String OBJECT = "object";
-	private final String VALUE = "value";
-	private final String GET = "get";
-	
-	private Gworm gworm;
+	private static final String GWORM = "gworm";
+	private static final String URL = "url";
+	private static final String ARRAY = "array";
+	private static final String ID = "id";
+	private static final String RULE = "rule";
+	private static final String OBJECT = "object";
+	private static final String VALUE = "value";
+	private static final String GET = "get";
 
-	public GwormFactory(String wormConfigPath) throws FileNotFoundException {
-		this(new FileInputStream(new File(wormConfigPath)));
+	/**
+	 * 返回Gworm
+	 * @param wormConfigPath 配置文件路径
+	 * @return Gworm
+	 * @throws FileNotFoundException 没找到文件
+	 */
+	public static Gworm getInstance(String wormConfigPath) throws FileNotFoundException {
+		return getInstance(getInputStream(wormConfigPath));
+	}
+
+	/**
+	 * 返回Gworm
+	 * @param wormConfigIn 配置文件输入流
+	 * @return Gworm
+	 */
+	public static Gworm getInstance(InputStream wormConfigIn) {
+		return getGworm(wormConfigIn);
+	}
+
+	private static InputStream getInputStream(String wormConfigPath) throws FileNotFoundException {
+		return new FileInputStream(new File(wormConfigPath));
 	}
 	
-	public Gworm getInstance(){
-		return gworm;
-	}
-	
-	public GwormFactory(InputStream wormConfigIn) {
-		gworm = new Gworm(); 
+	private static Gworm getGworm(InputStream wormConfigIn) {
+		Gworm gworm = null;
+		try {
+			Class<?> c = Gworm.class;
+			Constructor constructor = c.getDeclaredConstructor();
+			constructor.setAccessible(true);
+			gworm = (Gworm) constructor.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 		try {
         	SAXReader saxReader = new SAXReader(); 
 			Document document = saxReader.read(wormConfigIn);
@@ -45,9 +79,10 @@ public class GwormFactory {
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
+		return gworm;
 	}
 
-	private void initGwormUrl(List<Element> elements, Gworm gworm) {
+	private static void initGwormUrl(List<Element> elements, Gworm gworm) {
 		for(Element element : elements) {
 			if(element.getName().equals(URL)) {
 				List<Element> elementss = element.elements();
@@ -60,7 +95,7 @@ public class GwormFactory {
 		}
 	}
 	
-	private void initGwormJsonable(List<Element> elements, GwormJsonable gj) {
+	private static void initGwormJsonable(List<Element> elements, GwormJsonable gj) {
 		for(Element element : elements) {
 			
 			String name = element.getName();
@@ -93,7 +128,7 @@ public class GwormFactory {
 		}
 	}
 	
-	private String trim(String str) {
+	private static String trim(String str) {
 		if(str != null)
 			return str.trim();
 		return null;

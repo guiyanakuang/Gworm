@@ -6,8 +6,22 @@ import java.util.ArrayList;
 import com.gyak.json.JSONException;
 import com.gyak.json.JSONStringer;
 
+/**
+ * 将java对象转化为JSON数据
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2014-10-11.
+ */
 public class ObjectToJSON {
 
+	/**
+	 * 将ArrayList内对象转化为JSON数据
+	 * @param list ArrayList
+	 * @param <T> 数组内保存的内
+	 * @return JSON数据
+	 * @throws JSONException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	public static <T> String getJson(ArrayList<T> list) throws JSONException, IllegalArgumentException, IllegalAccessException {
 		if (list.size() > 0) {
 			JSONStringer str = new JSONStringer();

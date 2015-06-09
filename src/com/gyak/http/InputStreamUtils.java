@@ -8,12 +8,10 @@ import java.util.zip.GZIPInputStream;
 import com.gyak.proterty.NotInitRequestProperties;
 
 /**
- * <p><B>功能:</B> 接收gzip流
- * @author 作者 E-mail:guiyanakuang@gmail.com
- * @version 创建时间：2014年10月11日 下午7:16:26
- *
+ * gzip流处理单元
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2014-10-11.
  */
-
 public class InputStreamUtils {
 
 	/**
@@ -56,7 +54,13 @@ public class InputStreamUtils {
 		}
 		return "";
 	}
-	
+
+	/**
+	 * 获取网页源码
+	 * @param gurl Gurl
+	 * @return 网页源码
+	 * @throws NotInitRequestProperties 没有初始化http请求参数
+	 */
 	public static String getHttp(Gurl gurl) throws NotInitRequestProperties{
 		try {
 			InputStream in = gurl.getInputStream();

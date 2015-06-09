@@ -1,8 +1,9 @@
 package com.gyak.http;
 
 /**
- * cookie 生成接口
- * * Created by Guiyanakuang on 2015/5/31.
+ * Cookie生成接口
+ * @author  <a href="http://guiyanakuang.com">geek'喵</a>
+ * on 2015-05-31.
  */
 
 public interface CookieGeneration {
