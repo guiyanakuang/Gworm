@@ -1,5 +1,7 @@
 package com.gyak.gworm;
 
+import com.gyak.url.UrlGeneration;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,19 +24,19 @@ public abstract class GwormAction {
     public void work() {
         ExecutorService exec = Executors.newFixedThreadPool(taskNum);
         for(int i=urlGeneration.getStart();i<=urlGeneration.getEnd();i++) {
-            String url = urlGeneration.getCurrentUrl();
-            exec.execute(new GwormCallBack(coordinate, url) {
+            final Object bind = urlGeneration.getCurrentbindObj();
+            exec.execute(new GwormCallBack(coordinate, bind) {
                 @Override
-                void callBack(String json) {
-                    action(json);
+                void callBack(String json, Object bind) {
+                    action(json, bind);
                 }
+
             });
             urlGeneration.next();
         }
         exec.shutdown();
     }
 
-    public abstract void action(String json);
-
+    public abstract void action(String json, Object obj);
 
 }

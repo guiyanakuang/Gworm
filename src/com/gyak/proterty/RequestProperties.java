@@ -5,10 +5,10 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
-/** 
- * <p><B>¹¦ÄÜ:</B>»ñÈ¡ÅäÖÃ²ÎÊı
- * @author ×÷Õß E-mail:guiyanakuang@gmail.com 
- * @version ´´½¨Ê±¼ä£º2014Äê8ÔÂ17ÈÕ ÏÂÎç9:13:21 
+/**
+ * <p><B>åŠŸèƒ½:</B>è·å–é…ç½®å‚æ•°
+ * @author ä½œè€… E-mail:guiyanakuang@gmail.com
+ * @version åˆ›å»ºæ—¶é—´ï¼š2014å¹´8æœˆ17æ—¥ ä¸‹åˆ9:13:21
  *
  */
 
@@ -23,9 +23,9 @@ public class RequestProperties {
 	}
 	
 	private Properties properties;
-	
+
 	/**
-	 * ÊµÀı»¯MyProperties
+	 * å®ä¾‹åŒ–MyProperties
 	 */
 	private RequestProperties(){}
 	
@@ -35,7 +35,7 @@ public class RequestProperties {
 			properties.load(is);
 			is.close();
 		} catch (IOException e) {
-			System.err.println("¼ÓÔØ²ÎÊıÎÄ¼şÊ§°Ü");
+			e.printStackTrace();
 		}
 	}
 	
@@ -44,11 +44,11 @@ public class RequestProperties {
 			throw new NotInitRequestProperties();
 		return this.properties;
 	}
-	
+
 	/**
-	 * »ñÈ¡ÅäÖÃ²ÎÊı
-	 * @param key ²ÎÊıÃû
-	 * @return ²ÎÊıÖµ
+	 * è·å–é…ç½®å‚æ•°
+	 * @param key å‚æ•°å
+	 * @return å‚æ•°å€¼
 	 */
 	public String getValue(String key){
 		return properties.getProperty(key);

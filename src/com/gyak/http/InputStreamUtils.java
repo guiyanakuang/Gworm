@@ -7,20 +7,20 @@ import java.util.zip.GZIPInputStream;
 
 import com.gyak.proterty.NotInitRequestProperties;
 
-/** 
- * <p><B>¹¦ÄÜ:</B> ½ÓÊÕgzipÁ÷
- * @author ×÷Õß E-mail:guiyanakuang@gmail.com 
- * @version ´´½¨Ê±¼ä£º2014Äê10ÔÂ11ÈÕ ÏÂÎç7:16:26 
+/**
+ * <p><B>åŠŸèƒ½:</B> æ¥æ”¶gzipæµ
+ * @author ä½œè€… E-mail:guiyanakuang@gmail.com
+ * @version åˆ›å»ºæ—¶é—´ï¼š2014å¹´10æœˆ11æ—¥ ä¸‹åˆ7:16:26
  *
  */
 
 public class InputStreamUtils {
 
 	/**
-	 * ½ÓÊÕgzipÁ÷£¬°´²»Í¬±àÂëÊä³öÍøÒ³Ô´Âë
-	 * @param in  ÊäÈëÁ÷
-	 * @param encoding ×ª»¯±àÂë
-	 * @return ÍøÒ³Ô´Âë
+	 * æ¥æ”¶gzipæµï¼ŒæŒ‰ä¸åŒç¼–ç è¾“å‡ºç½‘é¡µæºç 
+	 * @param in  è¾“å…¥æµ
+	 * @param encoding è½¬åŒ–ç¼–ç 
+	 * @return ç½‘é¡µæºç 
 	 * @throws IOException
 	 */
 	private static String uncompress(InputStream in, String encoding) {   

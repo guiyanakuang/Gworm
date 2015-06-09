@@ -1,23 +1,20 @@
 package com.gyak.http;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
 import com.gyak.proterty.NotInitRequestProperties;
 import com.gyak.proterty.RequestProperties;
 /**
- * 
- * <p><B>¹¦ÄÜ:</B> ·â×°µÄHttpURLConnection
- * @author ×÷Õß E-mail: guiyanakuang@gmail.com
- * @version ´´½¨Ê±¼ä£º2014Äê10ÔÂ21ÈÕ ÏÂÎç7:07:11 
+ *
+ * <p><B>åŠŸèƒ½:</B> å°è£…çš„HttpURLConnection
+ * @author ä½œè€… E-mail: guiyanakuang@gmail.com
+ * @version åˆ›å»ºæ—¶é—´ï¼š2014å¹´10æœˆ21æ—¥ ä¸‹åˆ7:07:11
  *
  */
 
@@ -73,11 +70,11 @@ public class Gurl {
 		setRequestProperty();
 		setCookie();
 	}
-	
+
 	/**
-	 * ÉèÖÃhttp·ÃÎÊÊı¾İ°üµÄ²ÎÊı
+	 * è®¾ç½®httpè®¿é—®æ•°æ®åŒ…çš„å‚æ•°
 	 * @throws IOException
-	 * @throws NotInitRequestProperties 
+	 * @throws NotInitRequestProperties
 	 */
 	private void setRequestProperty() throws IOException, NotInitRequestProperties{
 		RequestProperties rp = RequestProperties.getInstance();
@@ -87,19 +84,19 @@ public class Gurl {
             http.setRequestProperty(e.getKey().toString(), e.getValue().toString());
         }
 	}
-	
+
 	/**
-	 * ÉèÖÃcookie
+	 * è®¾ç½®cookie
 	 */
 	private void setCookie(){
 		this.http.setRequestProperty(CookieManager.REQUEST_KEY, cookieManager.getCookies());
 	}
-	
+
 	/**
-	 * »ñÈ¡ÏÂÔØÁ÷
-	 * @return
+	 * è·å–è¾“å…¥æµ
+	 * @return è¾“å…¥æµ
 	 * @throws IOException
-	 * @throws NotInitRequestProperties 
+	 * @throws NotInitRequestProperties
 	 */
 	public InputStream getInputStream() throws IOException, NotInitRequestProperties {
         return http.getInputStream();

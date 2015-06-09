@@ -36,7 +36,7 @@ public class Gworm {
 		return str.toString();
 	}
 	
-	private String getHtml(String url) throws NotInitRequestProperties {
+	public String getHtml(String url) throws NotInitRequestProperties {
 		Gurl gurl = new Gurl(url);
 		try {
 			gurl.openUrl();

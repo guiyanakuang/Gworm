@@ -6,18 +6,18 @@ import com.gyak.json.JSONStringer;
 
 public interface GwormJsonable {
 	
-	public void setId(String id);
+	void setId(String id);
 	
-	public void setRule(String rule);
+	void setRule(String rule);
 	
-	public void setGet(String get);
+	void setGet(String get);
 	
-	public void addGwormJson(GwormJsonable gj);
+	void addGwormJson(GwormJsonable gj);
 	
-	public boolean equalId(String id);
+	boolean equalId(String id);
 
-	public void getJson(JSONStringer str, Elements elements);
+	void getJson(JSONStringer str, Elements elements);
 	
-	public void getJson(JSONStringer str, Elements elements, String id);
+	void getJson(JSONStringer str, Elements elements, String id);
 	
 }

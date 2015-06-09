@@ -1,6 +1,7 @@
 package com.gyak.gworm;
 
 import com.gyak.proterty.NotInitRequestProperties;
+import com.gyak.url.HasUrl;
 
 /**
  * Created by Guiyanakuang
@@ -9,11 +10,11 @@ import com.gyak.proterty.NotInitRequestProperties;
 public abstract class GwormCallBack implements Runnable{
 
     private GwormCoordinate coordinate;
-    private String url;
+    private Object obj;
 
-    public GwormCallBack(GwormCoordinate coordinate, String currentUrl) {
+    public GwormCallBack(GwormCoordinate coordinate, Object obj) {
         this.coordinate = coordinate;
-        this.url = currentUrl;
+        this.obj = obj;
     }
 
     @Override
@@ -22,7 +23,7 @@ public abstract class GwormCallBack implements Runnable{
         String json = null;
 
         try {
-            json = gwormBox.getJson(coordinate, url);
+            json = gwormBox.getJson(coordinate, getUrlFromObject(obj));
         } catch (NotFindGwormConfigException e) {
             e.printStackTrace();
         } catch (NotInitRequestProperties notInitRequestProperties) {
@@ -30,9 +31,13 @@ public abstract class GwormCallBack implements Runnable{
         }
 
         if (json != null) {
-            callBack(json);
+            callBack(json, obj);
         }
     }
 
-    abstract void callBack(String json);
+    abstract void callBack(String json, Object obj);
+
+    private String getUrlFromObject(Object obj){
+        return ((HasUrl)obj).getUrl();
+    }
 }

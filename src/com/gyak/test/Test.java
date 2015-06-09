@@ -3,7 +3,8 @@ package com.gyak.test;
 import com.gyak.gworm.GwormAction;
 import com.gyak.gworm.GwormBox;
 import com.gyak.gworm.GwormCoordinate;
-import com.gyak.gworm.UrlGeneration;
+import com.gyak.url.HasUrl;
+import com.gyak.url.UrlGeneration;
 import com.gyak.json.JSONArray;
 import com.gyak.json.JSONObject;
 import com.gyak.json.JSONTokener;
@@ -29,9 +30,9 @@ public class Test {
     private final String BOOK_AUTHOR = "bookAuthor";
     private final String BOOK_COMMENT = "bookComment";
 
-    private int concurrency = 10;
+    private int concurrency = 20;
 
-    private void test() throws FileNotFoundException {
+    public void test() throws FileNotFoundException {
         GwormBox gwormBox = GwormBox.getInstance();
         RequestProperties rp = RequestProperties.getInstance();
         rp.initProperties(new FileInputStream(new File(REQUEST_FILE)));
@@ -41,7 +42,7 @@ public class Test {
         GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
 
             @Override
-            public void action(String json) {
+            public void action(String json, Object bindObj) {
                 JSONArray array = new JSONArray(new JSONTokener(json));
                 for (int i=0;i<array.length();i++) {
                     JSONObject obj = array.getJSONObject(i);
@@ -56,6 +57,7 @@ public class Test {
                     System.out.println("_________________________________");
                 }
             }
+
         };
 
         ga.work();
@@ -95,9 +97,15 @@ public class Test {
         }
 
         @Override
-        public String getCurrentUrl() {
-            return page + currentPage;
+        public HasUrl getCurrentbindObj() {
+            return new HasUrl() {
+                @Override
+                public String getUrl() {
+                    return page + currentPage;
+                }
+            };
         }
+
     }
 
 }

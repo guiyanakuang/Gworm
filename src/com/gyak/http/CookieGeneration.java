@@ -1,7 +1,7 @@
 package com.gyak.http;
 
 /**
- * cookie生成策略接口
+ * cookie 鐢熸垚鎺ュ彛
  * * Created by Guiyanakuang on 2015/5/31.
  */
 

@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:guiyanakuang@gmail.com">ÕÂÒİÈº</a>
- *
+ * cookie ç®¡ç†å™¨
+ * * Created by Guiyanakuang on 2015/5/31.
  */
 public class CookieManager {
 
