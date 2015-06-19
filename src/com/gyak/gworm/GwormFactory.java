@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.gyak.http.DefaultGetHtml;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -79,6 +80,7 @@ public class GwormFactory {
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
+		gworm.setHtmlable(DefaultGetHtml.getHtmlable());
 		return gworm;
 	}
 
