@@ -3,6 +3,7 @@ package com.gyak.gworm;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.gyak.http.Htmlable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -22,7 +23,17 @@ public class Gworm {
 	
 	private HashMap<String, GwormUrl> gwormUrlMap = new HashMap<String, GwormUrl>();
 
+	private Htmlable htmlable;
+
 	private Gworm(){}
+
+	/**
+	 * 设置Htmlable
+	 * @param htmlable
+	 */
+	public void setHtmlable(Htmlable htmlable) {
+		this.htmlable = htmlable;
+	}
 
 	/**
 	 * 保存GwormUrl
@@ -51,7 +62,7 @@ public class Gworm {
 	 */
 	public String getJson(String url, String urlId) throws NotInitRequestProperties {
 		JSONStringer str = new JSONStringer();
-		getGwormUrl(urlId).getJson(str, htmlToElements(getHtml(url)));
+		getGwormUrl(urlId).getJson(str, htmlToElements(htmlable.getHtml(url)));
 		return str.toString();
 	}
 
@@ -65,26 +76,11 @@ public class Gworm {
 	 */
 	public String getJson(String url, String urlId, String jsonId) throws NotInitRequestProperties {
 		JSONStringer str = new JSONStringer();
-		getGwormUrl(urlId).getJson(str, htmlToElements(getHtml(url)), jsonId);
+		getGwormUrl(urlId).getJson(str, htmlToElements(htmlable.getHtml(url)), jsonId);
 		return str.toString();
 	}
 
-	/**
-	 * 通过url获取链接文件内容
-	 * @param url 链接
-	 * @return 文件内容
-	 * @throws NotInitRequestProperties 没有初始化http请求参数
-	 */
-	public String getHtml(String url) throws NotInitRequestProperties {
-		Gurl gurl = new Gurl(url);
-		try {
-			gurl.openUrl();
-			return InputStreamUtils.getHttp(gurl);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+
 	
 	private Elements htmlToElements(String html) {
 		Document doc = Jsoup.parse(html);
