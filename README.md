@@ -3,16 +3,16 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 
 ## 目录
 
-* [Maven依赖包](#Maven依赖包)
+* [依赖包](#依赖包)
 * [参数文件](#参数文件)
   * [爬取规则](#爬取规则)
   * [请求参数](#请求参数)
 * [示例程序](#示例程序)
   * [初始化](#初始化)
-  * [URL生成器](#URL生成器)
-  * [ACTION数据操作](#ACTION数据操作)
+  * [链接生成器](#链接生成器)
+  * [数据操作](#数据操作)
 
-## Maven依赖包
+## 依赖包
 * 读取配置文件 : dom4j-2.0.0-RC1.jar
 * DOM提取 : jsoup-18.3.jar
 ```xml
@@ -101,7 +101,7 @@ rp.initProperties(ClassLoader.getSystemResourceAsStream(REQUEST_FILE));
 gwormBox.addGworm(WORM_CONFIG, NAME);
 ```        
 
-### URL生成器
+### 链接生成器
 
 url生成器用来生产爬取目标，方便串行、并行的爬取目标，接口为`UrlGeneration`
 ```java
@@ -139,7 +139,7 @@ class JdUrlGeneration implements UrlGeneration {
 }
 ```
 
-### ACTION数据操作
+### 数据操作
 
 `GwormCoordinate`规则定位器，传入`GwormAction`中用来指定使用的规则，实现虚函数`action`用来处理已经爬回的json数据，`bindObj`对应URL生成器绑定的对象。 
 ```java
