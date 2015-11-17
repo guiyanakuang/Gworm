@@ -1,10 +1,10 @@
 package com.gyak.newjson;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import com.gyak.json.JSONException;
 import com.gyak.json.JSONStringer;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 /**
  * 将java对象转化为JSON数据

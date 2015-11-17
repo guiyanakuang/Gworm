@@ -1,23 +1,26 @@
 package com.gyak.gworm;
 
+import com.gyak.json.JSONStringer;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.gyak.json.JSONStringer;
+import java.util.ArrayList;
 
 /**
- * 爬取指定值的配置类
+ * 爬取JSONArray的配置类
  * @author  <a href="http://guiyanakuang.com">geek'喵</a>
  * on 2014-03-09.
  */
-public class GwormValue implements GwormJsonable {
+public class GwormArray implements GwormJsonable {
 
 	private String id;
 	private String rule;
-	private String get;
+	
+	private ArrayList<GwormJsonable> list = new ArrayList<GwormJsonable>();
 
 	/**
 	 * 设置配置类id
-	 * @param id 配置文件中value标签的id
+	 * @param id 配置文件中array标签的id
 	 */
 	@Override
 	public void setId(String id) {
@@ -34,20 +37,13 @@ public class GwormValue implements GwormJsonable {
 	}
 
 	/**
-	 * 设置获取value的方法
-	 * @param get 获取方法
-	 */
-	@Override
-	public void setGet(String get) {
-		this.get = get;
-	}
-
-	/**
-	 * GwormValue已为最底层，故调用此方法不会做任何事
+	 * 添加下一层的配置接口
 	 * @param gj
 	 */
 	@Override
-	public void addGwormJson(GwormJsonable gj) {}
+	public void addGwormJson(GwormJsonable gj) {
+		list.add(gj);
+	}
 
 	/**
 	 * 判断配置id是否为_id
@@ -60,42 +56,51 @@ public class GwormValue implements GwormJsonable {
 	}
 
 	/**
-	 * 从elements中提取数据插入到str中
+	 * 使用下一层配置接口从elements中提取数据插入到str中
 	 * @param str JSONString
 	 * @param elements html中的一块标签
 	 */
 	@Override
 	public void getJson(JSONStringer str, Elements elements) {
-		
-		Elements es = elements.select(rule);
-		str.key(id);
-		String value;
-		if(get.substring(0, 4).equals("attr")){
-			value = es.attr(get.split(" ")[1]);
+		str.array();
+		Elements e = elements.select(rule);
+		for(Element element : e){
+			for(GwormJsonable gj : list){
+				gj.getJson(str, element.getAllElements());
+			}
 		}
-		else if(get.equals("text")){
-			value = es.text();
-		}
-		else if(get.equals("html")){
-			value = es.html();
-		}
-		else{
-			value = null;
-		}
-		str.value(value);
+		str.endArray();
 	}
 
 	/**
 	 * 使用id为_id的配置接口从elements中提取数据插入到str中
 	 * @param str JSONString
 	 * @param elements html中的一块标签
-	 * @param _id 配置接口id
+	 * @param _id 下一层配置接口id
 	 */
 	@Override
 	public void getJson(JSONStringer str, Elements elements, String _id) {
 		if(equalId(_id)){
 			getJson(str, elements);
 		}
+		else{
+			str.array();
+			Elements e = elements.select(rule);
+			for(Element element : e){
+				for(GwormJsonable gj : list){
+					gj.getJson(str, element.getAllElements(), _id);
+				}
+			}
+			str.endArray();
+		}
 	}
 
+	/**
+	 * GwormArray并不需要实现GwormJsonable中的setGet方法，
+	 * 故不需要做任何事
+	 * @param get
+	 */
+	@Override
+	public void setGet(String get) {}
+	
 }

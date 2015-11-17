@@ -1,6 +1,9 @@
 package com.gyak.http;
 
 
+import com.gyak.proterty.NotInitRequestProperties;
+import com.gyak.proterty.RequestProperties;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -8,8 +11,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import com.gyak.proterty.NotInitRequestProperties;
-import com.gyak.proterty.RequestProperties;
 /**
  * http连接类，封装HttpURLConnection、CookieManager
  * @author  <a href="http://guiyanakuang.com">geek'喵</a>

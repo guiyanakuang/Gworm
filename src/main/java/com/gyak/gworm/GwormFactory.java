@@ -1,5 +1,11 @@
 package com.gyak.gworm;
 
+import com.gyak.http.DefaultGetHtml;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,12 +13,6 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-
-import com.gyak.http.DefaultGetHtml;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 /**
  * Gworm静态工厂类
@@ -50,7 +50,7 @@ public class GwormFactory {
 	}
 
 	private static InputStream getInputStream(String wormConfigPath) throws FileNotFoundException {
-		return new FileInputStream(new File(wormConfigPath));
+		return ClassLoader.getSystemResourceAsStream(wormConfigPath);
 	}
 	
 	private static Gworm getGworm(InputStream wormConfigIn) {
@@ -70,7 +70,7 @@ public class GwormFactory {
 			e.printStackTrace();
 		}
 		try {
-        	SAXReader saxReader = new SAXReader(); 
+        	SAXReader saxReader = new SAXReader();
 			Document document = saxReader.read(wormConfigIn);
 			Element elementGworm = document.getRootElement();
 			if(elementGworm.getName().equals(GWORM)) {

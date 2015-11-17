@@ -1,11 +1,11 @@
 package com.gyak.http;
 
+import com.gyak.proterty.NotInitRequestProperties;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
-
-import com.gyak.proterty.NotInitRequestProperties;
 
 /**
  * gzip流处理单元

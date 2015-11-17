@@ -3,12 +3,12 @@ package com.gyak.test;
 import com.gyak.gworm.GwormAction;
 import com.gyak.gworm.GwormBox;
 import com.gyak.gworm.GwormCoordinate;
-import com.gyak.url.HasUrl;
-import com.gyak.url.UrlGeneration;
 import com.gyak.json.JSONArray;
 import com.gyak.json.JSONObject;
 import com.gyak.json.JSONTokener;
 import com.gyak.proterty.RequestProperties;
+import com.gyak.url.HasUrl;
+import com.gyak.url.UrlGeneration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,7 +35,7 @@ public class Test {
     public void test() throws FileNotFoundException {
         GwormBox gwormBox = GwormBox.getInstance();
         RequestProperties rp = RequestProperties.getInstance();
-        rp.initProperties(new FileInputStream(new File(REQUEST_FILE)));
+        rp.initProperties(ClassLoader.getSystemResourceAsStream(REQUEST_FILE));
         gwormBox.addGworm(WORM_CONFIG, NAME);
         UrlGeneration jd = new JdUrlGeneration();
         GwormCoordinate coordinate = new GwormCoordinate(NAME, URL_ID);
@@ -54,7 +54,7 @@ public class Test {
                     System.out.println("购买链接：" + bookPage);
                     System.out.println("作者：" + bookAuthor);
                     System.out.println("评论数：" + bookComment);
-                    System.out.println("_________________________________");
+                    System.out.println("￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣");
                 }
             }
 

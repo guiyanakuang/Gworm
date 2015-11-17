@@ -1,10 +1,10 @@
 package com.gyak.gworm;
 
+import com.gyak.proterty.NotInitRequestProperties;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-
-import com.gyak.proterty.NotInitRequestProperties;
 
 
 /**

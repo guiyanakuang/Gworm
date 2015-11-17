@@ -1,17 +1,13 @@
 package com.gyak.gworm;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import com.gyak.http.Htmlable;
+import com.gyak.json.JSONStringer;
+import com.gyak.proterty.NotInitRequestProperties;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.gyak.http.Gurl;
-import com.gyak.http.InputStreamUtils;
-import com.gyak.json.JSONStringer;
-import com.gyak.proterty.NotInitRequestProperties;
+import java.util.HashMap;
 
 /**
  * 用以提取指定url里的内容，并以JSON格式返回

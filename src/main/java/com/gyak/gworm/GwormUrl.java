@@ -1,10 +1,9 @@
 package com.gyak.gworm;
 
-import java.util.ArrayList;
-
+import com.gyak.json.JSONStringer;
 import org.jsoup.select.Elements;
 
-import com.gyak.json.JSONStringer;
+import java.util.ArrayList;
 
 /**
  * 爬取相应url的配置类
