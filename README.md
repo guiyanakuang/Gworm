@@ -180,4 +180,4 @@ ga.work(); //启动爬取
 
 ### 异步加载
 
-对于有些通过异步来加载数据的网页，提取这部分数据必须运行js后方能获得，对于这些网页可以自行实现[Htmlable](#/src/main/java/com/gyak/http/Htmlable.java)（例如调用Chrome来获取html）接口
+对于有些通过异步来加载数据的网页，提取这部分数据必须运行js后方能获得，对于这些网页可以自行实现[Htmlable](/src/main/java/com/gyak/http/Htmlable.java)（例如调用Chrome来获取html）接口
