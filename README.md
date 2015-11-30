@@ -11,6 +11,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
   * [初始化](#初始化)
   * [链接生成器](#链接生成器)
   * [数据操作](#数据操作)
+  * [异步加载](#异步加载)
 
 ## 依赖包
 * 读取配置文件 : dom4j-2.0.0-RC1.jar
@@ -176,3 +177,7 @@ GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
 
 ga.work(); //启动爬取
 ```
+
+### 异步加载
+
+对于有些通过异步来加载数据的网页，提取这部分数据必须运行js后方能获得，对于这些网页可以自行实现[Htmlable](#/src/main/java/com/gyak/http/Htmlable.java)（例如调用Chrome来获取html）接口
