@@ -51,7 +51,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 ### 爬取规则
 
 ```json
-#src\test\resources\jd.json
+//src\test\resources\jd.json
 [
   {
     "id": "Book",
