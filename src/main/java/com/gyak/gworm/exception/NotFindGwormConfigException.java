@@ -1,4 +1,4 @@
-package com.gyak.gworm;
+package com.gyak.gworm.exception;
 
 /**
  * 没有找到Gworm配置文件的Exception

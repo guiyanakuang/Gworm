@@ -1,17 +1,15 @@
 package com.gyak.test;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.gyak.gworm.GwormAction;
 import com.gyak.gworm.GwormBox;
 import com.gyak.gworm.GwormCoordinate;
-import com.gyak.json.JSONArray;
-import com.gyak.json.JSONObject;
-import com.gyak.json.JSONTokener;
+
 import com.gyak.proterty.RequestProperties;
 import com.gyak.url.HasUrl;
 import com.gyak.url.UrlGeneration;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
@@ -23,8 +21,9 @@ public class Test {
     private final String NAME = "JDBook";
     private final String URL_ID = "Book";
     private final String REQUEST_FILE = "request.properties";
-    private final String WORM_CONFIG = "jd.xml";
+    private final String WORM_CONFIG = "jd.json";
 
+    private final String BOOK_LIST = "bookList";
     private final String BOOK_NAME = "bookName";
     private final String BOOK_PAGE = "bookPage";
     private final String BOOK_AUTHOR = "bookAuthor";
@@ -42,14 +41,14 @@ public class Test {
         GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
 
             @Override
-            public void action(String json, Object bindObj) {
-                JSONArray array = new JSONArray(new JSONTokener(json));
-                for (int i=0;i<array.length();i++) {
-                    JSONObject obj = array.getJSONObject(i);
-                    String bookName = obj.getString(BOOK_NAME);
-                    String bookPage = obj.getString(BOOK_PAGE);
-                    String bookAuthor = obj.getString(BOOK_AUTHOR);
-                    String bookComment = obj.getString(BOOK_COMMENT);
+            public void action(JsonObject json, Object bindObj) {
+                JsonArray jsonArray = json.get(BOOK_LIST).getAsJsonArray();
+                for (int i=0;i<jsonArray.size();i++) {
+                    JsonObject obj = jsonArray.get(i).getAsJsonObject();
+                    String bookName = obj.get(BOOK_NAME).getAsString();
+                    String bookPage = obj.get(BOOK_PAGE).getAsString();
+                    String bookAuthor = obj.get(BOOK_AUTHOR).getAsString();
+                    String bookComment = obj.get(BOOK_COMMENT).getAsString();
                     System.out.println("书名：" + bookName);
                     System.out.println("购买链接：" + bookPage);
                     System.out.println("作者：" + bookAuthor);

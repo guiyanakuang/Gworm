@@ -1,13 +1,15 @@
 package com.gyak.gworm;
 
+import com.google.gson.JsonObject;
+import com.gyak.gworm.exception.NotFindRuleException;
+import com.gyak.http.DefaultGetHtml;
 import com.gyak.http.Htmlable;
-import com.gyak.json.JSONStringer;
 import com.gyak.proterty.NotInitRequestProperties;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.util.HashMap;
+
 
 /**
  * 用以提取指定url里的内容，并以JSON格式返回
@@ -15,13 +17,32 @@ import java.util.HashMap;
  * @author  <a href="http://guiyanakuang.com">geek'喵</a>
  * on 2015-06-09.
  */
-public class Gworm {
-	
-	private HashMap<String, GwormUrl> gwormUrlMap = new HashMap<String, GwormUrl>();
+public class Gworm implements GwormJsonable{
 
-	private Htmlable htmlable;
+	private static final String ATTR = "attr";
+
+	private static final String TEXT = "text";
+
+	private static final String HTML = "html";
+
+	private static final String BODY = "body";
+
+	private String id;
+
+	private String rule;
+
+	private String get;
+
+	private GwormArray gwormArray;
+
+	private Htmlable htmlable = new DefaultGetHtml();
 
 	private Gworm(){}
+
+	@Override
+	public String getId() {
+		return id;
+	}
 
 	/**
 	 * 设置Htmlable
@@ -31,56 +52,69 @@ public class Gworm {
 		this.htmlable = htmlable;
 	}
 
-	/**
-	 * 保存GwormUrl
-	 * @param urlId 保存的键（配置文件url标签对应的id）
-	 * @param url {@link com.gyak.gworm.GwormUrl GwormUrl}
-	 */
-	public void putGwormUrl(String urlId, GwormUrl url){
-		gwormUrlMap.put(urlId, url);
+
+
+	public JsonObject getJson(String url) throws NotInitRequestProperties {
+		if (id == null) return null;
+
+		Elements elements = htmlToElements(htmlable.getHtml(url));
+		return getJsonFromElements(new JsonObject(), elements);
 	}
 
-	/**
-	 * 通过key获取GwormUrl
-	 * @param urlId 保存的键(配置文件url标签对应的id)
-	 * @return {@link com.gyak.gworm.GwormUrl GwormUrl}
-	 */
-	public GwormUrl getGwormUrl(String urlId){
-		return gwormUrlMap.get(urlId);
+	@Override
+	public JsonObject getJsonFromElements(Elements elements) throws NotInitRequestProperties {
+		JsonObject jsonObject = new JsonObject();
+
+		return getJsonFromElements(jsonObject, elements);
 	}
 
-	/**
-	 * 获取JSON，通过指定的url与{@link com.gyak.gworm.GwormUrl GwormUrl}对应的键urlId
-	 * @param url 爬取的链接
-	 * @param urlId {@link com.gyak.gworm.GwormUrl GwormUrl}对应的键
-	 * @return 爬取的JSON
-	 * @throws NotInitRequestProperties 没有初始化http请求参数
-	 */
-	public String getJson(String url, String urlId) throws NotInitRequestProperties {
-		JSONStringer str = new JSONStringer();
-		getGwormUrl(urlId).getJson(str, htmlToElements(htmlable.getHtml(url)));
-		return str.toString();
+	public JsonObject getJsonFromElements(JsonObject jsonObject, Elements elements) throws NotInitRequestProperties {
+
+		if (get != null) {
+			jsonObject.addProperty(id, getValue(elements));
+		}
+
+		if (gwormArray != null ) {
+			jsonObject.add(gwormArray.getId(), gwormArray.getJsonFromElements(elements));
+		}
+
+		return jsonObject;
 	}
-
-	/**
-	 * 获取JSON，通过指定的url与{@link com.gyak.gworm.GwormUrl GwormUrl}对应的键urlId以及单条jsonId
-	 * @param url 爬取的链接
-	 * @param urlId 配置文件url标签对应的id
-	 * @param jsonId 配置文件value标签的id
-	 * @return 爬取的JSON
-	 * @throws NotInitRequestProperties 没有初始化http请求参数
-	 */
-	public String getJson(String url, String urlId, String jsonId) throws NotInitRequestProperties {
-		JSONStringer str = new JSONStringer();
-		getGwormUrl(urlId).getJson(str, htmlToElements(htmlable.getHtml(url)), jsonId);
-		return str.toString();
-	}
-
-
 	
 	private Elements htmlToElements(String html) {
 		Document doc = Jsoup.parse(html);
-		return doc.getElementsByTag("body");
+		return doc.getElementsByTag(BODY);
 	}
+
+	private String getValue(Elements elements) {
+		if (rule == null) {
+			try {
+				throw new NotFindRuleException(id);
+			} catch (NotFindRuleException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		else {
+			Elements e = elements.select(rule);
+			String get = this.get.trim();
+			String value;
+			if(get.startsWith(ATTR)){
+				value = e.attr(get.split(" ")[1]);
+			}
+			else if(get.equals(TEXT)){
+				value = e.text();
+			}
+			else if(get.equals(HTML)){
+				value = e.html();
+			}
+			else{
+				value = null;
+			}
+			return value;
+		}
+
+	}
+
 
 }

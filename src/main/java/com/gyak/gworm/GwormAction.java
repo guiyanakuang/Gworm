@@ -1,5 +1,6 @@
 package com.gyak.gworm;
 
+import com.google.gson.JsonObject;
 import com.gyak.url.UrlGeneration;
 
 import java.util.concurrent.ExecutorService;
@@ -37,7 +38,7 @@ public abstract class GwormAction {
             final Object bind = urlGeneration.getCurrentbindObj();
             exec.execute(new GwormCallBack(coordinate, bind) {
                 @Override
-                void callBack(String json, Object bind) {
+                void callBack(JsonObject json, Object bind) {
                     action(json, bind);
                 }
 
@@ -47,11 +48,6 @@ public abstract class GwormAction {
         exec.shutdown();
     }
 
-    /**
-     * 爬取结果的处理函数
-     * @param json 爬取的JSON
-     * @param bind 对应url生成器绑定的对象
-     */
-    public abstract void action(String json, Object bind);
 
+    public abstract void action(JsonObject json, Object bindObj);
 }

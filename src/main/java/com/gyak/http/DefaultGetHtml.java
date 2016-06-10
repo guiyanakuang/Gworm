@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class DefaultGetHtml implements Htmlable {
 
-    public static DefaultGetHtml getHtmlable() {
+    public static Htmlable getHtmlable() {
         return new DefaultGetHtml();
     }
 

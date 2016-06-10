@@ -1,10 +1,13 @@
 package com.gyak.gworm;
 
+import com.google.gson.JsonObject;
+import com.gyak.gworm.exception.NotFindGwormConfigException;
 import com.gyak.proterty.NotInitRequestProperties;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -34,84 +37,55 @@ public class GwormBox {
 	/**
 	 * 添加Gworm配置
 	 * @param path 配置文件路径
-	 * @param name 配置名
 	 */
 	public void addGworm(String path, String name) {
 		try {
-			Gworm gworm = GwormFactory.getInstance(path);
-			gwormMap.put(name, gworm);
+			List<Gworm> list = GwormFactory.getInstance(path);
+			put(list, name);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void put(List<Gworm> list, String name) {
+		for (Gworm gworm : list) {
+			gwormMap.put(name + "." + gworm.getId(), gworm);
 		}
 	}
 
 	/**
 	 * 添加Gworm配置
 	 * @param in 配置文件输入流
-	 * @param name 配置名
 	 */
 	public void addGworm(InputStream in, String name) {
-		Gworm gworm = GwormFactory.getInstance(in);
-		gwormMap.put(name, gworm);
+		List<Gworm> list = GwormFactory.getInstance(in);
+		put(list, name);
 	}
 
-	/**
-	 * 通过爬取参数坐标coordinate,爬取url,返回JSON数据
-	 * @param coordinate 爬取参数坐标
-	 * @param url 爬取链接
-	 * @return JSON
-	 * @throws NotInitRequestProperties 没有初始化http请求参数
-	 * @throws NotFindGwormConfigException 没有找到爬虫配置文件
-	 */
-	public String getJson(GwormCoordinate coordinate, String url) throws NotInitRequestProperties, NotFindGwormConfigException {
+
+	public JsonObject getJson(GwormCoordinate coordinate, String url) throws NotInitRequestProperties, NotFindGwormConfigException {
 		if (coordinate.getJsonId() == null) {
 			return getJson(coordinate.getName(), url,
 					coordinate.getUrlId());
 		}
-		else
-			return getJson(coordinate.getName(), url,
-					coordinate.getUrlId(),
-					coordinate.getJsonId());
+
+		return null;
 	}
 
-	/**
-	 * 通过由name指定的Gworm使用urlId对应的规则爬取链接url
-	 * @param name 保存在GwormBox中的key
-	 * @param url 爬取链接
-	 * @param urlId 配置文件中url标签对应的id
-	 * @return JSON
-	 * @throws NotFindGwormConfigException 没有初始化http请求参数
-	 * @throws NotInitRequestProperties 没有找到爬虫配置文件
-	 */
-	public String getJson(String name, String url, String urlId) throws NotFindGwormConfigException, NotInitRequestProperties {
-		Gworm gworm = gwormMap.get(name);
+	public String getJsonString(GwormCoordinate coordinate, String url) throws NotInitRequestProperties, NotFindGwormConfigException {
+		JsonObject jsonObject = getJson(coordinate, url);
+		return jsonObject != null ? jsonObject.getAsString() : null;
+	}
+
+
+	public JsonObject getJson(String name, String url, String urlId) throws NotFindGwormConfigException, NotInitRequestProperties {
+		Gworm gworm = gwormMap.get(name + "." + urlId);
 		if(gworm == null) {
 			throw new NotFindGwormConfigException();
 		}
 		else {
-			return gworm.getJson(url, urlId);
+			return gworm.getJson(url);
 		}
 	}
-
-	/**
-	 * 通过由name指定的Gworm使用urlId、jsonId对应的规则爬取链接url
-	 * @param name 保存在GwormBox中的key
-	 * @param url 爬取链接
-	 * @param urlId 配置文件中url标签对应的id
-	 * @param jsonId 配置文件中value标签对应的id
-	 * @return JSON
-	 * @throws NotFindGwormConfigException 没有初始化http请求参数
-	 * @throws NotInitRequestProperties 没有找到爬虫配置文件
-	 */
-	public String getJson(String name, String url, String urlId, String jsonId) throws NotFindGwormConfigException, NotInitRequestProperties {
-		Gworm gworm = gwormMap.get(name);
-		if(gworm == null) {
-			throw new NotFindGwormConfigException();
-		}
-		else {
-			return gworm.getJson(url, urlId, jsonId);
-		}
-	}
-	
 	
 }

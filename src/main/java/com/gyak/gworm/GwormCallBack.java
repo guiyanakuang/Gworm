@@ -1,5 +1,7 @@
 package com.gyak.gworm;
 
+import com.google.gson.JsonObject;
+import com.gyak.gworm.exception.NotFindGwormConfigException;
 import com.gyak.proterty.NotInitRequestProperties;
 import com.gyak.url.HasUrl;
 
@@ -29,22 +31,22 @@ public abstract class GwormCallBack implements Runnable{
     @Override
     public void run() {
         GwormBox gwormBox = GwormBox.getInstance();
-        String json = null;
+        JsonObject jsonObject = null;
 
         try {
-            json = gwormBox.getJson(coordinate, getUrlFromObject(bind));
+            jsonObject = gwormBox.getJson(coordinate, getUrlFromObject(bind));
         } catch (NotFindGwormConfigException e) {
             e.printStackTrace();
         } catch (NotInitRequestProperties notInitRequestProperties) {
             notInitRequestProperties.printStackTrace();
         }
 
-        if (json != null) {
-            callBack(json, bind);
+        if (jsonObject != null) {
+            callBack(jsonObject, bind);
         }
     }
 
-    abstract void callBack(String json, Object bind);
+    abstract void callBack(JsonObject jsonObject, Object bind);
 
     private String getUrlFromObject(Object bind){
         return ((HasUrl)bind).getUrl();

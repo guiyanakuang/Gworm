@@ -1,0 +1,32 @@
+[
+  {
+    "id": "Book",
+    "gwormArray": {
+      "id": "bookList",
+      "rule": "#plist .gl-item",
+      "list": [
+        {
+          "id": "bookName",
+          "rule": ".p-name",
+          "get": "text"
+        },
+        {
+          "id": "bookPage",
+          "rule": "p-name a",
+          "get": "attr href"
+        },
+        {
+          "id": "bookAuthor",
+          "rule": ".author_type_1 a",
+          "get": "text"
+        },
+        {
+          "id": "bookComment",
+          "rule": ".p-commit a",
+          "get": "text"
+        }
+      ]
+    }
+  }
+]
+
