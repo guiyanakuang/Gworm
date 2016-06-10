@@ -14,8 +14,8 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
   * [异步加载](#异步加载)
 
 ## 依赖包
-* 读取配置文件 : dom4j-2.0.0-RC1.jar
-* DOM提取 : jsoup-18.3.jar
+* JSON库 : Gson 2.6.2
+* DOM提取 : jsoup 18.3
 
 ```xml
 #pom.xml
@@ -27,7 +27,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 
     <groupId>com.gyak.gworm</groupId>
     <artifactId>gworm</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
@@ -49,14 +49,6 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 使用Gworm爬虫框架需要配置两份文件，爬虫规则文件、请求参数文件。
 
 ### 爬取规则
-* url:id                 <> GwormCoordinate:URL_ID
-* array                  <> JSON:array
-* array:rule             <> HTML:css
-* object                 <> JSON:object
-* value                  <> JSON:value
-* value:rule             <> HTML:css
-* value:get:text         <> HTML:文本
-* value:get:attr {name}  <> HTML:标签 {name}attr:value
 
 ```json
 #src\test\resources\jd.json
