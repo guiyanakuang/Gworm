@@ -16,6 +16,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 ## 依赖包
 * 读取配置文件 : dom4j-2.0.0-RC1.jar
 * DOM提取 : jsoup-18.3.jar
+
 ```xml
 #pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -30,9 +31,9 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 
     <dependencies>
         <dependency>
-            <groupId>org.dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>2.0.0-RC1</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -40,9 +41,8 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
             <version>1.8.3</version>
         </dependency>
     </dependencies>
-    
-</project>
 
+</project>
 ```
 
 ## 参数文件
@@ -57,22 +57,40 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 * value:rule             <> HTML:css
 * value:get:text         <> HTML:文本
 * value:get:attr {name}  <> HTML:标签 {name}attr:value
-```xml
-#src\test\resources\jd.xml
-<?xml version="1.0" encoding="UTF-8" ?>
-<!--JD（京东）小说->中国当代小说->人民文学出版社  爬取参数-->
-<gworm>
-    <url id = "Book">
-        <array id = "BookList"  rule = "#plist .gl-item" >
-            <object>
-                <value id = "bookName" rule = ".p-name" get = "text" />
-                <value id = "bookPage" rule = ".p-name a" get = "attr href" />
-                <value id = "bookAuthor" rule = ".author_type_1 a" get = "text" />
-                <value id = "bookComment" rule = ".p-commit a" get = "text" />
-            </object>
-        </array>
-    </url>
-</gworm>
+
+```json
+#src\test\resources\jd.json
+[
+  {
+    "id": "Book",
+    "gwormArray": {
+      "id": "bookList",
+      "rule": "#plist .gl-item",
+      "list": [
+        {
+          "id": "bookName",
+          "rule": ".p-name",
+          "get": "text"
+        },
+        {
+          "id": "bookPage",
+          "rule": "p-name a",
+          "get": "attr href"
+        },
+        {
+          "id": "bookAuthor",
+          "rule": ".author_type_1 a",
+          "get": "text"
+        },
+        {
+          "id": "bookComment",
+          "rule": ".p-commit a",
+          "get": "text"
+        }
+      ]
+    }
+  }
+]
 ```
 
 ### 请求参数
@@ -158,13 +176,13 @@ GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
      */
     @Override
     public void action(String json, Object bindObj) {
-        JSONArray array = new JSONArray(new JSONTokener(json));
-        for (int i=0;i<array.length();i++) {
-            JSONObject obj = array.getJSONObject(i);
-            String bookName = obj.getString(BOOK_NAME);
-            String bookPage = obj.getString(BOOK_PAGE);
-            String bookAuthor = obj.getString(BOOK_AUTHOR);
-            String bookComment = obj.getString(BOOK_COMMENT);
+        JsonArray jsonArray = json.get(BOOK_LIST).getAsJsonArray();
+        for (int i=0;i<jsonArray.size();i++) {
+            JsonObject obj = jsonArray.get(i).getAsJsonObject();
+            String bookName = obj.get(BOOK_NAME).getAsString();
+            String bookPage = obj.get(BOOK_PAGE).getAsString();
+            String bookAuthor = obj.get(BOOK_AUTHOR).getAsString();
+            String bookComment = obj.get(BOOK_COMMENT).getAsString();
             System.out.println("书名：" + bookName);
             System.out.println("购买链接：" + bookPage);
             System.out.println("作者：" + bookAuthor);
