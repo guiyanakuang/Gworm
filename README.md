@@ -16,6 +16,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 ## 依赖包
 * JSON库 : Gson 2.6.2
 * DOM提取 : jsoup 18.3
+* WebDriver : selenium-java 2.53.0
 
 ```xml
 #pom.xml
@@ -39,6 +40,11 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.8.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.53.0</version>
         </dependency>
     </dependencies>
 
@@ -190,4 +196,12 @@ ga.work(); //启动爬取
 
 ### 异步加载
 
-对于有些通过异步来加载数据的网页，提取这部分数据必须运行js后方能获得，对于这些网页可以自行实现[Htmlable](/src/main/java/com/gyak/http/Htmlable.java)（例如调用Chrome来获取html）接口
+对于有些通过异步来加载数据的网页，提取这部分数据必须运行js后方能获得，对于这些网页可以自行实现[Htmlable](/src/main/java/com/gyak/http/Htmlable.java)（例如调用Chrome来获取html）接口。
+
+最新添加了ChromeProxy类，实现了调用Chrome来爬取异步加载页面，具体示例详见[ChromeProxy](/src/test/java/com/gyak/test/ChromeProxyTest.java)
+```java
+ChromeProxy chromeProxy = new ChromeProxy("C:\\Users\\guiya\\Desktop\\chromedriver.exe");
+```
+ChromeDriver下载地址 https://sites.google.com/a/chromium.org/chromedriver/
+其他WebDriver下载地址 http://www.seleniumhq.org/download/
+运行测试代码时，请修改为自己放置的路径
