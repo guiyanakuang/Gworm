@@ -202,6 +202,8 @@ ga.work(); //启动爬取
 ```java
 ChromeProxy chromeProxy = new ChromeProxy("C:\\Users\\guiya\\Desktop\\chromedriver.exe");
 ```
-ChromeDriver下载地址 https://sites.google.com/a/chromium.org/chromedriver/
-其他WebDriver下载地址 http://www.seleniumhq.org/download/
-运行测试代码时，请修改为自己放置的路径
+[ChromeDriver下载地址](https://sites.google.com/a/chromium.org/chromedriver/)
+
+[其他WebDriver下载地址](http://www.seleniumhq.org/download/)
+
+运行测试代码时，请修改为自己WebDriver放置的路径。
