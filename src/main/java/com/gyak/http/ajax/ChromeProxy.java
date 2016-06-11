@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class ChromeProxy implements Htmlable {
 
     public ChromeProxy(String path) {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\guiya\\Desktop\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", path);
     }
 
     @Override
