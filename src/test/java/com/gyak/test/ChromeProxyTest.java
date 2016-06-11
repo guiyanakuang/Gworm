@@ -26,6 +26,9 @@ public class ChromeProxyTest {
 
 
     public void test() throws NotInitRequestProperties, NotFindGwormConfigException {
+        //ChromeDriver下载地址 https://sites.google.com/a/chromium.org/chromedriver/
+        //其他WebDriver下载地址 http://www.seleniumhq.org/download/
+        //修改为自己的路径
         ChromeProxy chromeProxy = new ChromeProxy("C:\\Users\\guiya\\Desktop\\chromedriver.exe");
         GwormBox gwormBox = GwormBox.getInstance();
         RequestProperties rp = RequestProperties.getInstance();
