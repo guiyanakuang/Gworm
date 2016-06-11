@@ -2,6 +2,7 @@ package com.gyak.gworm;
 
 import com.google.gson.JsonObject;
 import com.gyak.gworm.exception.NotFindGwormConfigException;
+import com.gyak.http.Htmlable;
 import com.gyak.proterty.NotInitRequestProperties;
 
 import java.io.FileNotFoundException;
@@ -50,6 +51,15 @@ public class GwormBox {
 	private void put(List<Gworm> list, String name) {
 		for (Gworm gworm : list) {
 			gwormMap.put(name + "." + gworm.getId(), gworm);
+		}
+	}
+
+	public void addGworm(String path, String name, Htmlable htmlable) {
+		try {
+			List<Gworm> list = GwormFactory.getInstance(path, htmlable);
+			put(list, name);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 
 
 /**
@@ -57,7 +58,12 @@ public class Gworm implements GwormJsonable{
 	public JsonObject getJson(String url) throws NotInitRequestProperties {
 		if (id == null) return null;
 
-		Elements elements = htmlToElements(htmlable.getHtml(url));
+		Elements elements = null;
+		try {
+			elements = htmlToElements(htmlable.getHtml(url));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return getJsonFromElements(new JsonObject(), elements);
 	}
 

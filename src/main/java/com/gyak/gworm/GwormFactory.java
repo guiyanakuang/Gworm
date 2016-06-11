@@ -2,6 +2,7 @@ package com.gyak.gworm;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyak.http.Htmlable;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -47,6 +48,14 @@ public class GwormFactory {
 		return getGworm(wormConfigIn);
 	}
 
+	public static List<Gworm> getInstance(String path, Htmlable htmlable) throws FileNotFoundException {
+		List<Gworm> list = getInstance(path);
+		for (Gworm gworm : list) {
+			gworm.setHtmlable(htmlable);
+		}
+		return list;
+	}
+
 	private static InputStream getInputStream(String wormConfigPath) throws FileNotFoundException {
 		return ClassLoader.getSystemResourceAsStream(wormConfigPath);
 	}
@@ -74,5 +83,6 @@ public class GwormFactory {
 		}
 		return buffer.toString();
 	}
-	
+
+
 }
