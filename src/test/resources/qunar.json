@@ -1,0 +1,22 @@
+[
+  {
+    "id": "Flight",
+    "gwormArray": {
+      "id": "flightList",
+      "rule": "#rk_hdivResultPanel .avt-column",
+      "list": [
+        {
+          "id": "flightName",
+          "rule": ".avt-column-1st .a-name",
+          "get": "text"
+        },
+        {
+          "id": "flightLine",
+          "rule": ".avt-column-1st .a-model span",
+          "get": "text"
+        }
+      ]
+    }
+  }
+]
+
