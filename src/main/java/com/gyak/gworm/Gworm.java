@@ -104,20 +104,16 @@ public class Gworm implements GwormJsonable{
 		else {
 			Elements e = elements.select(rule);
 			String get = this.get.trim();
-			String value;
-			if(get.startsWith(ATTR)){
-				value = e.attr(get.split(" ")[1]);
-			}
-			else if(get.equals(TEXT)){
-				value = e.text();
+
+			if(get.equals(TEXT)){
+				return e.text();
 			}
 			else if(get.equals(HTML)){
-				value = e.html();
+				return e.html();
 			}
 			else{
-				value = null;
+				return e.attr(get);
 			}
-			return value;
 		}
 
 	}

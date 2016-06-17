@@ -72,8 +72,8 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
         },
         {
           "id": "bookPage",
-          "rule": "p-name a",
-          "get": "attr href"
+          "rule": ".p-name a",
+          "get": "href"
         },
         {
           "id": "bookAuthor",

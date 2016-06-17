@@ -12,8 +12,8 @@
         },
         {
           "id": "bookPage",
-          "rule": "p-name a",
-          "get": "attr href"
+          "rule": ".p-name a",
+          "get": "href"
         },
         {
           "id": "bookAuthor",
