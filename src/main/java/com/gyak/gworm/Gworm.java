@@ -8,6 +8,7 @@ import com.gyak.proterty.NotInitRequestProperties;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.jsoup.select.Evaluator;
 
 import java.io.IOException;
 
@@ -20,13 +21,13 @@ import java.io.IOException;
  */
 public class Gworm implements GwormJsonable{
 
-	private static final String ATTR = "attr";
+	private static final String TEXT = "TEXT";
 
-	private static final String TEXT = "text";
+	private static final String HTML = "HTML";
 
-	private static final String HTML = "html";
+	private static final String FUNC  = "FUNC";
 
-	private static final String BODY = "body";
+	private static final String BODY = "BODY";
 
 	private String id;
 
@@ -102,20 +103,27 @@ public class Gworm implements GwormJsonable{
 			return null;
 		}
 		else {
-			Elements e = elements.select(rule);
-			String get = this.get.trim();
-
-			if(get.equals(TEXT)){
-				return e.text();
-			}
-			else if(get.equals(HTML)){
-				return e.html();
-			}
-			else{
-				return e.attr(get);
+			switch (get.trim().toUpperCase()) {
+				case TEXT: return elements.select(rule).text();
+				case HTML: return elements.select(rule).html();
+				case FUNC: return getValueByFunc(elements);
+				default:   return elements.select(rule).attr(get);
 			}
 		}
 
+	}
+
+	private String getValueByFunc(Elements elements) {
+		String className = rule.trim();
+		try {
+			Class rule = Class.forName(className);
+			GwormRule gwormRule = (GwormRule)rule.newInstance();
+			return gwormRule.getValue(elements);
+		} catch (ClassNotFoundException |
+				InstantiationException  |
+				IllegalAccessException e) {
+			return null;
+		}
 	}
 
 
