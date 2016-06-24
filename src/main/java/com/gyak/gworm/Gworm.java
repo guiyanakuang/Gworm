@@ -8,9 +8,10 @@ import com.gyak.proterty.NotInitRequestProperties;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -21,11 +22,13 @@ import java.io.IOException;
  */
 public class Gworm implements GwormJsonable{
 
-	private static final String TEXT = "TEXT";
+	private static final String TEXT  = "TEXT";
 
-	private static final String HTML = "HTML";
+	private static final String HTML  = "HTML";
 
 	private static final String FUNC  = "FUNC";
+
+	private static final String REGEX = "REGEX";
 
 	private static final String BODY = "BODY";
 
@@ -104,10 +107,11 @@ public class Gworm implements GwormJsonable{
 		}
 		else {
 			switch (get.trim().toUpperCase()) {
-				case TEXT: return elements.select(rule).text();
-				case HTML: return elements.select(rule).html();
-				case FUNC: return getValueByFunc(elements);
-				default:   return elements.select(rule).attr(get);
+				case TEXT:  return elements.select(rule).text();
+				case HTML:  return elements.select(rule).html();
+				case FUNC:  return getValueByFunc(elements);
+				case REGEX: return getValueByRegex(elements);
+				default:    return elements.select(rule).attr(get);
 			}
 		}
 
@@ -126,5 +130,13 @@ public class Gworm implements GwormJsonable{
 		}
 	}
 
+	private String getValueByRegex(Elements elements) {
+		String html = elements.html();
+		Pattern pattern = Pattern.compile(rule);
+		Matcher matcher = pattern.matcher(html);
+		if (matcher.find())
+			return matcher.group(0);
+		return null;
+	}
 
 }
