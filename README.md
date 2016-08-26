@@ -28,7 +28,7 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
 
     <groupId>com.gyak.gworm</groupId>
     <artifactId>gworm</artifactId>
-    <version>1.1</version>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
@@ -47,6 +47,20 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
             <version>2.53.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>
 ```
@@ -78,11 +92,6 @@ Gworm是一个java版的爬虫框架，以json格式作为返回。
         {
           "id": "bookAuthor",
           "rule": ".author_type_1 a",
-          "get": "text"
-        },
-        {
-          "id": "bookComment",
-          "rule": ".p-commit a",
           "get": "text"
         }
       ]
@@ -126,7 +135,7 @@ url生成器用来生产爬取目标，方便串行、并行的爬取目标，�
 class JdUrlGeneration implements UrlGeneration {
 
     private int currentPage = 1;
-    private final String page = "http://list.jd.com/list.html?cat=1713,3258,3297&ev=publishers_%E4%BA%BA%E6%B0%91%E6%96%87%E5%AD%A6%E5%87%BA%E7%89%88%E7%A4%BE@&area=1,72,4137&delivery=0&stock=0&sort=sort_totalsales15_desc&JL=6_0_0&page=";
+    private final String page = "http://list.jd.com/list.html?cat=1713,3258,3297&page=%d&trans=1&JL=6_0_0";
 
     @Override
     public int getStart() {
@@ -146,9 +155,10 @@ class JdUrlGeneration implements UrlGeneration {
     @Override
     public HasUrl getCurrentbindObj() {
         return new HasUrl() {
+            private String url = String.format(page, currentPage);
             @Override
             public String getUrl() {
-                return page + currentPage;
+                return url;
             }
         };
     }
@@ -184,7 +194,6 @@ GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
             System.out.println("书名：" + bookName);
             System.out.println("购买链接：" + bookPage);
             System.out.println("作者：" + bookAuthor);
-            System.out.println("评论数：" + bookComment);
             System.out.println("￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣");
         }
     }
