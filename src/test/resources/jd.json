@@ -19,11 +19,6 @@
           "id": "bookAuthor",
           "rule": ".author_type_1 a",
           "get": "text"
-        },
-        {
-          "id": "bookComment",
-          "rule": ".p-commit a",
-          "get": "text"
         }
       ]
     }

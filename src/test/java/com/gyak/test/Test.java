@@ -27,7 +27,6 @@ public class Test {
     private final String BOOK_NAME = "bookName";
     private final String BOOK_PAGE = "bookPage";
     private final String BOOK_AUTHOR = "bookAuthor";
-    private final String BOOK_COMMENT = "bookComment";
 
     private int concurrency = 20;
 
@@ -48,11 +47,9 @@ public class Test {
                     String bookName = obj.get(BOOK_NAME).getAsString();
                     String bookPage = obj.get(BOOK_PAGE).getAsString();
                     String bookAuthor = obj.get(BOOK_AUTHOR).getAsString();
-                    String bookComment = obj.get(BOOK_COMMENT).getAsString();
                     System.out.println("书名：" + bookName);
                     System.out.println("购买链接：" + bookPage);
                     System.out.println("作者：" + bookAuthor);
-                    System.out.println("评论数：" + bookComment);
                     System.out.println("￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣");
                 }
             }
@@ -78,7 +75,7 @@ public class Test {
     class JdUrlGeneration implements UrlGeneration {
 
         private int currentPage = 1;
-        private final String page = "http://list.jd.com/list.html?cat=1713,3258,3297&ev=publishers_%E4%BA%BA%E6%B0%91%E6%96%87%E5%AD%A6%E5%87%BA%E7%89%88%E7%A4%BE@&area=1,72,4137&delivery=0&stock=0&sort=sort_totalsales15_desc&JL=6_0_0&page=";
+        private final String page = "http://list.jd.com/list.html?cat=1713,3258,3297&page=%d&trans=1&JL=6_0_0";
 
         @Override
         public int getStart() {
@@ -98,9 +95,10 @@ public class Test {
         @Override
         public HasUrl getCurrentbindObj() {
             return new HasUrl() {
+                private String url = String.format(page, currentPage);
                 @Override
                 public String getUrl() {
-                    return page + currentPage;
+                    return url;
                 }
             };
         }
