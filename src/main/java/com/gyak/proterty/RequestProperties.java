@@ -60,6 +60,10 @@ public class RequestProperties {
 	public String getValue(String key){
 		return properties.getProperty(key);
 	}
+
+	public void put(String key, String value) {
+		properties.put(key, value);
+	}
 	
 	
 }
