@@ -177,7 +177,7 @@ UrlGeneration jd = new JdUrlGeneration();
 GwormCoordinate coordinate = new GwormCoordinate(NAME, URL_ID); 
 //concurrency 并发数
 GwormAction ga = new GwormAction(concurrency, jd, coordinate) {
-	/**
+    /**
      * 爬取结果的处理函数
      * @param json 爬取的JSON
      * @param bind 对应url生成器绑定的对象
